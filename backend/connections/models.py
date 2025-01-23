@@ -26,3 +26,18 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+    
+
+class User(AbstractBaseUser):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    avatar = models.URLField(max_length=255, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.email
