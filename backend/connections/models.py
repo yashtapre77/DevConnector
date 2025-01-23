@@ -41,3 +41,21 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+    
+class Profile(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='profile', blank=True)
+    company = models.CharField(max_length=255, blank=True)
+    website = models.URLField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=100)
+    skills = models.TextField(help_text="Comma Seperated value")
+    bio = models.TextField()
+    githubusername = models.CharField(max_length=50, blank=True)
+    youtube = models.CharField(max_length=255, blank=True)
+    twitter = models.CharField(max_length=255, blank=True)
+    facebook = models.CharField(max_length=255, blank=True)
+    linkedin = models.CharField(max_length=255, blank=True)
+    instagram = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.user.name
