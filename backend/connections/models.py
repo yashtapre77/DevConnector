@@ -59,3 +59,17 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.name
+    
+
+class Experience(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='experience', blank=True)
+    title = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    from_date = models.DateField()
+    to_date = models.DateField(blank=True, null=True)
+    current = models.BooleanField(default=False)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
