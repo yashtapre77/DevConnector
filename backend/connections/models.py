@@ -73,3 +73,18 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Education(models.Model):
+    profile = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='education', blank=True)
+    school = models.CharField(max_length=255)
+    degree = models.CharField(max_length=255)
+    field_of_study = models.CharField(max_length=255)
+    from_date = models.DateField()
+    to_date = models.DateField(blank=True, null=True)
+    current = models.BooleanField(default=False)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.school
+    
+    
