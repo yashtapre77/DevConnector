@@ -87,4 +87,18 @@ class Education(models.Model):
     def __str__(self):
         return self.school
     
-    
+class Post(models.Model):
+    user = models.ForeignKey('User',on_delete=models.CASCADE, blank=True, related_name='posts')
+    text = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, blank=True)
+    avatar = models.URLField(max_length=200, blank=True)
+    likes = models.ManyToManyField('User', related_name="likes" , blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        ordering = ('-date',)
+
+
