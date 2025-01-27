@@ -50,3 +50,24 @@ class GetProfileSerializer(serializers.ModelSerializer):
             'status', 'skills', 'bio', 'githubusername',
             'youtube', 'twitter', 'facebook', 'linkedin',
             'instagram', 'experience', 'education'
+        ]
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id','user','text','name','avatar','date','likes','post_comments']
+        read_only_fields = ('post_comments',)
+
+class CommentSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='user.name',read_only=True)
+    avatar = serializers.URLField(source='user.avatar',read_only=True)
+    
+    class Meta:
+        model = Comment
+        fields = ['id','user','post','text','date','name','avatar']
+        
+class GetPostSerializer(serializers.ModelSerializer):
+    post_comments = CommentSerializer(many=True)
+    class Meta:
+        model = Post
+        fields = ['id','user','text','name','avatar','date','likes','post_comments']
