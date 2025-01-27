@@ -32,3 +32,21 @@ class ExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experience
         fields = '__all__'
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = '__all__'
+
+class GetProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    experience = ExperienceSerializer(many=True)
+    education = EducationSerializer(many=True)
+
+    class Meta:
+        model = Profile
+        fields = [
+            'id','user','company','website','location',
+            'status', 'skills', 'bio', 'githubusername',
+            'youtube', 'twitter', 'facebook', 'linkedin',
+            'instagram', 'experience', 'education'
