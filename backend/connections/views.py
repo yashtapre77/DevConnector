@@ -31,3 +31,15 @@ from .models import (
 )
 
 # Create your views here.
+
+class UserView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            token = Token.objects.get(user_id=serializer.data.get('id'))
+            return Response(data={'token': token.key}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
