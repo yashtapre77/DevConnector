@@ -105,3 +105,16 @@ class ProfileView(APIView):
     def delete(self, request):
         request.user.delete()
         return Response(data={'msg': "Profile and user deleted"}, status= status.HTTP_204_NO_CONTENT)
+    
+
+class SingleProfileView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id=kwargs.get('id'))
+            profile_data = GetProfileSerializer(user.profile).data
+            return Response(data=profile_data, status=status.HTTP_200_OK)
+            
+        except ObjectDoesNotExist:
+            return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
+        
+
