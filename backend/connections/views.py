@@ -69,3 +69,39 @@ class GetAuthUserView(APIView):
 
         token, _ = Token.objects.get_or_create(user=user)
         return Response({'token': token.key}, status=status.HTTP_200_OK)
+    
+
+class ProfileView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+           profile = request.user.profile
+        except ObjectDoesNotExist:
+            return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        profile_data = GetProfileSerializer(request.user.profile).data
+        return Response(data=profile_data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        has_profile = Profile.objects.filter(user=request.user).exists()
+        if has_profile:
+            instance = request.user.profile
+            serializer = ProfileSerializer(instance, data=request.data)
+        else:
+            serializer = ProfileSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            
+            serializer.save(user=request.user)
+            
+            profile_data = GetProfileSerializer(request.user.profile).data
+            return Response(data=profile_data, status=status.HTTP_200_OK)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request):
+        request.user.delete()
+        return Response(data={'msg': "Profile and user deleted"}, status= status.HTTP_204_NO_CONTENT)
