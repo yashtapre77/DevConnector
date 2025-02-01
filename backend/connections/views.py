@@ -118,3 +118,26 @@ class SingleProfileView(APIView):
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
         
 
+class ExperienceView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        serializer = ExperienceSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(profile=request.user.profile)
+            profile_data = GetProfileSerializer(request.user.profile).data
+            return Response(data=profile_data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, e_id):
+        experience = Experience.objects.filter(profile = request.user.profile, id=e_id).first()
+        if experience:
+            experience.delete()
+            profile_data = GetProfileSerializer(request.user.profile).data
+            return Response(data=profile_data, status=status.HTTP_200_OK)
+        else:
+            return Response(data={'error': "No Experience found"}, status=status.HTTP_404_NOT_FOUND)
+
