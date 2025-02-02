@@ -164,3 +164,17 @@ class EducationView(APIView):
             return Response(data=profile_data, status=status.HTTP_200_OK)
         else:
             return Response(data={'error': "No education found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GitProfileView(APIView):
+    def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
+        client_id = settings.GIT_CLIENT_ID
+        client_secret = settings.GIT_CLIENT_SECRET
+        uri = f'https://api.github.com/users/{username}/repos?per_page=5&sort=created:asc&\
+            client_id={client_id}&client_secret={client_secret}'
+        
+        response = requests.get(uri)
+        if response.status_code != 200:
+            return Response(data={'error': "No Github account found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(data=response.json(), status=status.HTTP_200_OK)
