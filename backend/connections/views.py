@@ -240,3 +240,35 @@ class LikeUnlikeView(APIView):
             return Response({'error': "No post found"}, status=status.HTTP_404_NOT_FOUND)
 
 
+
+class CommentView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        comment_id = kwargs.get('c_id')
+
+        serializer = CommentSerializer(data=request.data)
+
+        if serializer.is_valid():
+            post = Post.objects.filter(id=post_id).first()
+            if post:
+                serializer.save(user=request.user, post=post)
+                return Response(serializer.data , status=status.HTTP_200_OK)
+            else:
+                return Response({'error': "No post found"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+    def delete(self, request, *args, **kwargs):
+        comment_id = kwargs.get('id')
+        try:
+            comment = Comment.objects.get(id=comment_id)
+            if comment.user.id == request.user.id:
+                comment.delete()
+                return Response({'msg': "Comment Deleted"} , status=status.HTTP_200_OK)
+            else:
+                return Response({'error': "Unauthorized"} , status=status.HTTP_401_UNAUTHORIZED)
+
+        except ObjectDoesNotExist:
+            return Response({'error': "No comment found"}, status=status.HTTP_404_NOT_FOUND)
