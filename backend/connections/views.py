@@ -218,3 +218,25 @@ class PostView(APIView):
             return Response({'error': "No post found"}, status=status.HTTP_404_NOT_FOUND)
 
 
+
+class LikeUnlikeView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('id')
+        try:
+            post = Post.objects.get(id=post_id)
+            liked = post.likes.filter(id=request.user.id).exists()
+
+            if liked:
+                post.likes.remove(request.user.id)
+                return Response(GetPostSerializer(post).data , status=status.HTTP_200_OK)
+            else:
+                post.likes.add(request.user.id)
+                post.save()
+                return Response(GetPostSerializer(post).data , status=status.HTTP_200_OK)
+        except:
+            return Response({'error': "No post found"}, status=status.HTTP_404_NOT_FOUND)
+
+
