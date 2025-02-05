@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     UserView,
     GetAuthUserView,
-    ProfileView,
+    # ProfileView,
     ProfilesView,
     SingleProfileView,
     ExperienceView,
@@ -24,9 +24,9 @@ urlpatterns = [
     path('posts/<int:id>/comments', CommentView.as_view()),
     path('posts/comments/<int:id>', CommentView.as_view()),
 
-    path('profile', ProfileView.as_view()),
+    # path('profile', ProfileView.as_view()),
     path('profiles', ProfilesView.as_view()),
-    path('profile/me', ProfileView.as_view()),
+    path('profile/me', ProfilesView.as_view()),
     path('profile/experience', ExperienceView.as_view()),
     path('profile/experience/<int:e_id>', ExperienceView.as_view()),
     path('profile/education', EducationView.as_view()),

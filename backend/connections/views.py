@@ -71,7 +71,7 @@ class GetAuthUserView(APIView):
         return Response({'token': token.key}, status=status.HTTP_200_OK)
     
 
-class ProfileView(APIView):
+class ProfilesView(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
