@@ -1,6 +1,34 @@
-import React from 'react'
+import React from "react";
+import{ useState } from 'react'
+import { Link, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../../actions/auth";
+
 
 function Login() {
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+      });
+    
+      const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+      const dispatch = useDispatch();
+    
+      const { email, password } = formData;
+    
+      const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const onSubmit = async e => {
+        e.preventDefault();
+        dispatch(login(email, password));
+      };
+    
+      // Redirect if logged in
+      if (isAuthenticated) {
+        return <Redirect to="/dashboard" />;
+      }
   return (
     <div>
         <h1 className="large text-primary">Sign In</h1>
