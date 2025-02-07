@@ -1,6 +1,39 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 
 function Register() {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        password2: ""
+      });
+    
+      const dispatch = useDispatch();
+      const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    
+      const { name, email, password, password2 } = formData;
+    
+      const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const onSubmit = async e => {
+        e.preventDefault();
+        if (password !== password2) {
+          dispatch(setAlert("Passwords do not match", "danger"));
+        } else {
+          dispatch(register({ name, email, password }));
+        }
+      };
+    
+      // Redirect if logged in
+      if (isAuthenticated) {
+        return <Redirect to="/dashboard" />;
+      }
   return (
     <div>
       <h1 className="large text-primary">Sign Up</h1>
