@@ -1,6 +1,19 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { logout } from "../../actions/auth";
+
 
 function Navbar() {
+    const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, loading } = auth;
+
+  const onLogout = e => {
+    e.preventDefault();
+    dispatch(logout());
+  };
 
     const guestLinks = (
         <ul>
@@ -38,7 +51,7 @@ function Navbar() {
           </li>
         </ul>
       );
-      
+
   return (
     <div>
       <nav className="navbar bg-dark">
