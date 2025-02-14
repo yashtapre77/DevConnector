@@ -1,6 +1,12 @@
-import React from 'react'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Moment from "react-moment";
+import { deleteComment } from "../../actions/post";
 
-function CommentItem() {
+function CommentItem({ comment, postId }) {
+    const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
   return (
     <div>
       <div className="post bg-white p-1 my-1">
