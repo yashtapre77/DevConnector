@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addPost } from "../../actions/post";
 
 function PostForm() {
+    const [formData, setFormData] = useState({ text: "" });
+
+    const dispatch = useDispatch();
   return (
     <div>
        <div className="post-form">
