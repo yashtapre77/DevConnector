@@ -17,9 +17,51 @@ function PostItem({ post, showActions }) {
             <h4>{post.name}</h4>
           </Link>
         </div>
+        <div>
+        <p className="my-1">{post.text}</p>
+        <p className="post-date">
+          Posted on <Moment format="DD/MM/YYYY">{post.date}</Moment>
+        </p>
+        {showActions && (
+          <Fragment>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={e => {
+                dispatch(toggleLike(post.id));
+              }}
+            >
+              <i className="fas fa-thumbs-up"></i>
+              {post.likes.length > 0 && <span> {post.likes.length}</span>}
+            </button>
+
+            <Link to={`/posts/${post.id}`} className="btn btn-primary">
+              Discussion{" "}
+              {post.post_comments.length > 0 && (
+                <span className="comment-count">
+                  {post.post_comments.length}
+                </span>
+              )}
+            </Link>
+            {!auth.loading && auth.user.id === post.user && (
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => dispatch(deletePost(post.id))}
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </Fragment>
+        )}
+      </div>    
       </div>
     </div>
   );
-}
+};
+
+PostItem.defaultProps = {
+    showActions: true
+  };
 
 export default PostItem;
