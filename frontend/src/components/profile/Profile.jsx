@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { Fragment, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import Spinner from "../layout/Spinner";
+import ProfileTop from "./ProfileTop";
+import ProfileAbout from "./ProfileAbout";
+import ProfileExperience from "./ProfileExperience";
+import ProfileEducation from "./ProfileEducation";
+import ProfileGithub from "./ProfileGithub";
+import { getProfileById } from "../../actions/profile";
 
-function Profile() {
+function Profile(props) {
+    const {
+        profile: { profile, loading },
+        auth
+      } = useSelector(state => state);
+    
+      const dispatch = useDispatch();
+    
+      useEffect(() => {
+        dispatch(getProfileById(props.match.params.id));
+      }, [dispatch, props.match.params.id]);
   return (
     <div>
       {profile === null || loading ? (
