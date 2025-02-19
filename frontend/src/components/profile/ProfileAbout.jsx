@@ -1,6 +1,12 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 
-function ProfileAbout() {
+function ProfileAbout({
+    profile: {
+      bio,
+      skills,
+      user: { name }
+    }
+  }) {
   return (
     <div>
       <div className="profile-about bg-light p-2">
