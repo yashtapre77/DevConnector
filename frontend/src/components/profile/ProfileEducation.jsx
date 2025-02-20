@@ -1,6 +1,17 @@
-import React from 'react'
+import React from "react";
+import Moment from "react-moment";
 
-function ProfileEducation() {
+function ProfileEducation({
+    education: {
+      school,
+      degree,
+      field_of_study,
+      current,
+      to_date,
+      from_date,
+      description
+    }
+  }) {
   return (
     <div>
       <div>
