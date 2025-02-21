@@ -1,6 +1,16 @@
 import React from 'react'
-
-function ProfileExperience() {
+import Moment from 'react-moment'
+function ProfileExperience({
+    experience: {
+      company,
+      title,
+      location,
+      current,
+      to_date,
+      from_date,
+      description
+    }
+  }) {
   return (
     <div>
       <div>
