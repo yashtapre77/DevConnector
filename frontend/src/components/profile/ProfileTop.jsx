@@ -1,6 +1,19 @@
 import React from 'react'
 
-function ProfileTop() {
+function ProfileTop({
+  profile: {
+    status,
+    company,
+    location,
+    website,
+    twitter,
+    facebook,
+    youtube,
+    instagram,
+    linkedin,
+    user: { name, avatar }
+  }
+}) {
   return (
     <div>
       <div className="profile-top bg-primary p-2">
