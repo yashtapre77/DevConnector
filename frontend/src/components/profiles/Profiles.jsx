@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { Fragment, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Spinner from "../layout/Spinner";
+import ProfileItem from "./ProfileItem";
+import { getProfiles } from "../../actions/profile";
 
 function Profiles() {
+    const { profiles, loading } = useSelector(state => state.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProfiles());
+  }, [dispatch]);
   return (
     <div>
       {loading ? (
