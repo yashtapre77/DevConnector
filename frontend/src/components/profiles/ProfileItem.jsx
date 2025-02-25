@@ -1,6 +1,16 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
-function ProfileItem() {
+function ProfileItem({
+    profile: {
+      user: { id, name, avatar },
+      status,
+      company,
+      location,
+      skills
+    }
+  }) {
+    const skill_list = skills.split(",");
   return (
     <div>
       <div className="profile bg-light">
