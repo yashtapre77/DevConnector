@@ -1,9 +1,44 @@
-    import React from 'react'
-    
-    function AddEducation() {
-      return (
-        <div>
-          <h1 className="large text-primary">Add Your Education</h1>
+import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { addEducation } from "../../actions/profile";
+
+function AddEducation({ history }) {
+  const [formData, setFormData] = useState({
+    school: "",
+    degree: "",
+    field_of_study: "",
+    from_date: "",
+    to_date: "",
+    current: false,
+    description: "",
+  });
+  const [toDateDisabled, toggleDisabled] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const {
+    school,
+    degree,
+    field_of_study,
+    from_date,
+    to_date,
+    current,
+    description,
+  } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addEducation(formData, history));
+  };
+
+  return (
+    <div>
+      <h1 className="large text-primary">Add Your Education</h1>
       <p className="lead">
         <i className="fas fa-graduation-cap"></i> Add any school, bootcamp, etc
         that you have attended
@@ -54,7 +89,7 @@
               type="checkbox"
               name="current"
               checked={current}
-              onChange={e => {
+              onChange={(e) => {
                 setFormData({ ...formData, current: !current });
                 toggleDisabled(!toDateDisabled);
               }}
@@ -87,9 +122,8 @@
           Go Back
         </Link>
       </form>
-        </div>
-      )
-    }
-    
-    export default AddEducation
-    
+    </div>
+  );
+}
+
+export default AddEducation;
