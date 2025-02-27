@@ -1,6 +1,39 @@
-import React from 'react'
-
-function AddExperience() {
+import React, { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { addExperience } from "../../actions/profile";
+function AddExperience({ history }) {
+    const [formData, setFormData] = useState({
+        company: "",
+        title: "",
+        location: "",
+        from_date: "",
+        to_date: "",
+        current: false,
+        description: ""
+      });
+      const [toDateDisabled, toggleDisabled] = useState(false);
+    
+      const dispatch = useDispatch();
+    
+      const {
+        company,
+        title,
+        location,
+        from_date,
+        to_date,
+        current,
+        description
+      } = formData;
+    
+      const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const onSubmit = e => {
+        e.preventDefault();
+        dispatch(addExperience(formData, history));
+      };
   return (
     <div>
        <h1 className="large text-primary">Add An Experience</h1>
