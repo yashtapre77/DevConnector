@@ -1,6 +1,49 @@
-import React from 'react'
+import React, { useState, Fragment } from "react";
+import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createProfile } from "../../actions/profile";
 
-function CreateProfile() {
+function CreateProfile({history}) {
+    const [formData, setFormData] = useState({
+        company: "",
+        website: "",
+        location: "",
+        status: "",
+        skills: "",
+        githubusername: "",
+        bio: "",
+        twitter: "",
+        facebook: "",
+        linkedin: "",
+        youtube: "",
+        instagram: ""
+      });
+      const [displaySocialInputs, toggleSocialInputs] = useState(false);
+      const dispatch = useDispatch();
+    
+      const {
+        company,
+        website,
+        location,
+        status,
+        skills,
+        githubusername,
+        bio,
+        twitter,
+        facebook,
+        linkedin,
+        youtube,
+        instagram
+      } = formData;
+    
+      const onChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const onSubmit = e => {
+        e.preventDefault();
+        dispatch(createProfile(formData, history));
+      };
   return (
     <div>
       <h1 className="large text-primary">Create Your Profile</h1>
