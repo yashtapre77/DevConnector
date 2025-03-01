@@ -76,6 +76,44 @@ function EditProfile() {
             Give us an idea of where you are at in your career
           </small>
           </div>
+
+          <div className="form-group">
+          <input
+            type="text"
+            placeholder="Company"
+            name="company"
+            value={company}
+            onChange={onChange}
+          />
+          <small className="form-text">
+            Could be your own company or one you work for
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Website"
+            name="website"
+            value={website}
+            onChange={onChange}
+          />
+          <small className="form-text">
+            Could be your own or a company website
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Location"
+            name="location"
+            value={location}
+            onChange={onChange}
+          />
+          <small className="form-text">
+            City & state suggested (eg. Boston, MA)
+          </small>
+        </div>
+        
           </form>
 
     </div>
