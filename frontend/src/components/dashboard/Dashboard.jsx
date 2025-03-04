@@ -1,7 +1,25 @@
-import React from 'react'
+import React, { useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { getCurrentProfile, deleteAccount } from "../../actions/profile";
+import Spinner from "../layout/Spinner";
+import DashboardActions from "./DashboardActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 function Dashboard() {
-  return (
+
+    const { user } = useSelector(state => state.auth);
+  const { profile, loading } = useSelector(state => state.profile);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentProfile());
+  }, [dispatch]);
+
+  return loading && profile == null ? (
+    <Spinner />
+  ) : (
     <div>
        <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
